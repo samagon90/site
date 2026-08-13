@@ -10,12 +10,10 @@ export function getPool(): Pool {
     }
     _pool = new Pool({
       connectionString,
-      ssl: connectionString.includes("sslmode=require")
-        ? { rejectUnauthorized: false }
-        : undefined,
+      ssl: { rejectUnauthorized: false },
       max: 5,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
+      connectionTimeoutMillis: 15000,
     });
   }
   return _pool;
