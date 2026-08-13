@@ -2,23 +2,44 @@
 
 Профессиональный ремонт телефонов и ноутбуков в Симферополе. Сайт сервисного центра «Сервис 21».
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/samagon90/site)
+
 ## Технологии
 
 - **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS
-- **Backend:** Next.js API Routes
-- **Database:** Neon PostgreSQL + Prisma ORM
+- **Backend:** Next.js API Routes + PostgreSQL (pg driver)
+- **Database:** Neon PostgreSQL
 - **Валидация:** Zod + React Hook Form
-- **Деплой:** Render.com (Web Service)
+- **Деплой:** Render.com (Web Service, Free Tier)
 
 ## Функциональность
 
 - 🏠 Главная страница с hero-блоком, преимуществами, услугами, отзывами
 - 🔧 Страница услуг: ремонт телефонов и ноутбуков
-- 💰 Прайс-лист с ценами
-- 📍 Контакты с картой
-- 📝 Форма заявки с валидацией (Zod)
+- 💰 Прайс-лист с ценами в рублях
+- 📍 Контакты с картой и адресом в Симферополе
+- 📝 Форма заявки с валидацией (Zod) и сохранением в PostgreSQL
 - 🔐 Админ-панель `/admin` с защитой паролем
 - 📱 Адаптивный, mobile-first дизайн
+
+## Деплой на Render
+
+### Быстрый деплой (Recommended)
+
+1. Перейдите на [render.com](https://render.com)
+2. Нажмите **"New +"** → **"Web Service"**
+3. Подключите репозиторий `samagon90/site`
+4. Render автоматически подхватит `render.yaml`
+5. Укажите переменные окружения:
+   - `DATABASE_URL` = ваша строка подключения Neon
+   - `ADMIN_PASSWORD` = ваш пароль для админки
+6. Нажмите **"Create Web Service"**
+
+### Строка подключения Neon
+
+```
+postgresql://neondb_owner:npg_XXX@ep-xxx-pooler.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require
+```
 
 ## Локальный запуск
 
@@ -40,17 +61,11 @@ npm install
 Создайте файл `.env` в корне проекта:
 
 ```env
-DATABASE_URL="postgresql://user:password@host:5432/dbname?sslmode=require"
-ADMIN_PASSWORD="your-admin-password"
+DATABASE_URL=postgresql://neondb_owner:npg_XXX@ep-xxx-pooler.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require
+ADMIN_PASSWORD=your-admin-password
 ```
 
-### 4. Примигрируйте базу данных
-
-```bash
-npx prisma migrate deploy
-```
-
-### 5. Запустите сервер разработки
+### 4. Запустите сервер разработки
 
 ```bash
 npm run dev
@@ -58,7 +73,7 @@ npm run dev
 
 Откройте http://localhost:3000 в браузере.
 
-## Сборка и запуск продакшн-версии
+### 5. Сборка для продакшена
 
 ```bash
 npm run build
@@ -69,32 +84,47 @@ npm start
 
 ```
 ├── prisma/
-│   └── schema.prisma          # Схема базы данных
+│   └── schema.prisma          # Схема БД (документация)
 ├── src/
 │   ├── app/
 │   │   ├── admin/page.tsx      # Админ-панель
 │   │   ├── api/
-│   │   │   ├── requests/route.ts       # API: создание и получение заявок
-│   │   │   └── requests/[id]/route.ts  # API: обновление и удаление заявок
+│   │   │   ├── requests/route.ts       # API: заявки (GET, POST)
+│   │   │   └── requests/[id]/route.ts  # API: заявка (PATCH, DELETE)
 │   │   ├── contacts/page.tsx   # Контакты
-│   │   ├── prices/page.tsx     # Прайс-лист
+│   │   ├── prices/page.tsx     # Цены
 │   │   ├── services/page.tsx   # Услуги
-│   │   ├── globals.css         # Глобальные стили
-│   │   ├── layout.tsx          # Корневой layout
-│   │   └── page.tsx            # Главная страница
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx            # Главная
 │   ├── components/
-│   │   ├── header.tsx          # Шапка сайта
-│   │   ├── footer.tsx          # Подвал сайта
-│   │   ├── sections/           # Секции главной страницы
-│   │   └── ui/                 # UI-компоненты (shadcn-style)
+│   │   ├── header.tsx
+│   │   ├── footer.tsx
+│   │   ├── sections/           # Секции главной
+│   │   └── ui/                 # UI-компоненты
 │   └── lib/
-│       ├── prisma.ts           # Prisma клиент
-│       ├── utils.ts            # Утилиты
+│       ├── prisma.ts           # PostgreSQL pool
+│       ├── utils.ts
 │       └── validations.ts      # Zod-схемы
-├── render.yaml                 # Конфигурация для Render
+├── render.yaml
+├── .env.example
 ├── package.json
 └── tailwind.config.ts
 ```
+
+## API
+
+### POST /api/requests
+Создать заявку на ремонт (публичный).
+
+### GET /api/requests
+Получить все заявки (требует авторизации).
+
+### PATCH /api/requests/:id
+Обновить статус заявки (требует авторизации).
+
+### DELETE /api/requests/:id
+Удалить заявку (требует авторизации).
 
 ## Контакты
 
@@ -103,3 +133,7 @@ npm start
 Остановка «Кинотеатр Звезда», подземный переход, бутик №21  
 📞 +7 (978) 123-45-67  
 📧 info@service21.ru
+
+## Лицензия
+
+MIT
