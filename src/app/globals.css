@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 11%;
   }
 }
 
@@ -13,15 +13,30 @@
   * {
     @apply border-border;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-white text-gray-900 antialiased;
+    @apply bg-white text-slate-900 antialiased;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+@layer utilities {
+  .container-px {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .gradient-text {
+    background: linear-gradient(90deg, #f97316 0%, #fb923c 50%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }

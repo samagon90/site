@@ -1,68 +1,88 @@
 import React from "react";
-import { ClipboardList, Search, MessageSquare, Wrench, CheckCircle } from "lucide-react";
+import {
+  ClipboardList,
+  Search,
+  MessageSquare,
+  Wrench,
+  CheckCircle2,
+} from "lucide-react";
 
 const steps = [
   {
     icon: ClipboardList,
-    number: "01",
-    title: "Заявка",
-    description: "Оставьте заявку на сайте или позвоните нам по телефону",
+    title: "Оставляете заявку",
+    description:
+      "Звоните или заполняете форму — мы перезваниваем в течение 15 минут.",
   },
   {
     icon: Search,
-    number: "02",
-    title: "Диагностика",
-    description: "Мастер проведёт бесплатную диагностику вашего устройства",
+    title: "Бесплатная диагностика",
+    description:
+      "Мастер находит причину неисправности и называет точную цену и срок.",
   },
   {
     icon: MessageSquare,
-    number: "03",
     title: "Согласование",
-    description: "Согласуем стоимость и сроки ремонта с вами заранее",
+    description:
+      "Мы начинаем ремонт только после вашего согласия. Никаких сюрпризов.",
   },
   {
     icon: Wrench,
-    number: "04",
     title: "Ремонт",
-    description: "Выполняем ремонт быстро и качественно с гарантией",
+    description:
+      "Работают опытные мастера на профессиональном оборудовании. От 30 минут.",
   },
   {
-    icon: CheckCircle,
-    number: "05",
-    title: "Выдача",
-    description: "Получите исправное устройство с гарантийным талоном",
+    icon: CheckCircle2,
+    title: "Гарантия и выдача",
+    description:
+      "Вы проверяете устройство, получаете гарантийный талон до 12 месяцев.",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="py-16 md:py-24 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+    <section className="py-20 md:py-28 bg-slate-50 relative overflow-hidden">
+      <div className="container-px">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-accent mb-4">
             Как мы работаем
+          </span>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight text-balance">
+            От заявки до починки — 5 простых шагов
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Простой и понятный процесс от заявки до получения устройства
+          <p className="mt-4 text-lg text-slate-600">
+            Понятный и прозрачный процесс без скрытых платежей и неожиданностей
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
-          {steps.map((step, i) => (
-            <div key={i} className="relative flex flex-col items-center text-center">
-              {/* Connector line */}
-              {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-1/2 w-full h-0.5 bg-blue-200" />
-              )}
+        <div className="relative">
+          {/* Connector line on desktop */}
+          <div className="hidden lg:block absolute top-8 left-[8%] right-[8%] h-0.5 bg-gradient-to-r from-accent/20 via-accent to-accent/20" />
 
-              <div className="relative z-10 bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-md border-2 border-blue-100 mb-4">
-                <step.icon className="h-8 w-8 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+            {steps.map((step, i) => (
+              <div
+                key={i}
+                className="relative bg-white rounded-2xl p-6 border border-slate-200/70 shadow-soft text-center"
+              >
+                <div className="relative mx-auto mb-5">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-orange-600 text-white flex items-center justify-center shadow-glow mx-auto">
+                    <step.icon className="h-7 w-7" />
+                  </div>
+                  <span className="absolute -top-2 -right-2 md:right-0 bg-white border border-accent text-accent text-[11px] font-extrabold rounded-full h-7 w-7 flex items-center justify-center shadow-md">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {step.description}
+                </p>
               </div>
-              <span className="text-xs font-bold text-primary mb-1">Шаг {step.number}</span>
-              <h3 className="text-sm font-semibold text-gray-900 mb-1">{step.title}</h3>
-              <p className="text-xs text-gray-600">{step.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
